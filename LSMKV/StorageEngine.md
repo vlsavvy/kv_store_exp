@@ -36,6 +36,9 @@ This document explains the architecture of the current `StorageEngine` and `Repl
     - `putBatch` and `getBatch` follow similar logic
     - `getBatch` currently reads from MemTable and Replicator only
 
+- **Range operation**
+    - `getRange` allows data to be fetched for a key range.
+  
 - **Crash recovery**
     - `MemTable` is restored from WAL
     - SSTable reads would be required once data exceeds memory capacity (planned)
@@ -55,3 +58,4 @@ This document explains the architecture of the current `StorageEngine` and `Repl
 
 The current `StorageEngine` works as an **in-memory + WAL prototype** with optional replication.  
 Disk-based persistence and read optimization via SSTables and compaction are **planned but not yet implemented**.
+Replication strategies can be enhanced in different ways.

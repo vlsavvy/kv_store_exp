@@ -37,8 +37,7 @@ javac -d bin src/main/java/lsmkv/**/*.java
 ```
 
 2. **Run the main server**
-
-Example (assuming `Main.java` sets up `HttpServerWrapper` on port 8080):
+### Note: `Main.java` sets up `HttpServerWrapper` on port 8080:
 
 ```bash
 java -cp bin lsmkv.Main
