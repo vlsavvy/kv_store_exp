@@ -1,11 +1,11 @@
 // TODO: Implement HttpServerWrapper.java
-package lsmkv.network;
+package src.main.java.lsmkv.network;
 
 import com.sun.net.httpserver.HttpServer;
-import lsmkv.engine.StorageEngine;
-import lsmkv.network.handlers.BatchHandler;
-import lsmkv.network.handlers.KvHandler;
-import lsmkv.network.handlers.RangeHandler;
+import src.main.java.lsmkv.engine.StorageEngine;
+import src.main.java.lsmkv.network.handlers.BatchHandler;
+import src.main.java.lsmkv.network.handlers.KvHandler;
+import src.main.java.lsmkv.network.handlers.RangeHandler;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executor;

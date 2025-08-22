@@ -1,12 +1,32 @@
 // TODO: Implement Config.java
-package lsmkv.config;
+package src.main.java.lsmkv.config;
 
 import java.time.Duration;
 
+
+
 public class Config {
-    public long memtableFlushBytes = 8L * 1024 * 1024; // 8 MiB
-    public Duration fsyncInterval = Duration.ofMillis(50);
-    public int sparseIndexEvery = 32;
-    public int compactionFanIn = 4;
-    public int writeQueueCapacity = 1000; // backpressure queue
+    private final long memtableFlushBytes;
+    private final Duration fsyncInterval;
+    private final int sparseIndexEvery;
+    private final int compactionFanIn;
+    private final int writeQueueCapacity;
+
+
+
+
+    public Config(long memtableFlushBytes, Duration fsyncInterval,
+                  int sparseIndexEvery, int compactionFanIn, int writeQueueCapacity) {
+        this.memtableFlushBytes = memtableFlushBytes;
+        this.fsyncInterval = fsyncInterval;
+        this.sparseIndexEvery = sparseIndexEvery;
+        this.compactionFanIn = compactionFanIn;
+        this.writeQueueCapacity = writeQueueCapacity;
+    }
+
+    public long getMemtableFlushBytes() { return memtableFlushBytes; }
+    public Duration getFsyncInterval() { return fsyncInterval; }
+    public int getSparseIndexEvery() { return sparseIndexEvery; }
+    public int getCompactionFanIn() { return compactionFanIn; }
+    public int getWriteQueueCapacity() { return writeQueueCapacity; }
 }

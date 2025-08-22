@@ -1,7 +1,7 @@
 // TODO: Implement Compactor.java
-package lsmkv.engine;
+package src.main.java.lsmkv.engine;
 
-import lsmkv.config.Config;
+import src.main.java.lsmkv.config.Config;
 
 public class Compactor {
     private final SSTable sst;
@@ -24,3 +24,5 @@ public class Compactor {
         // TODO: stop background compaction
     }
 }
+
+

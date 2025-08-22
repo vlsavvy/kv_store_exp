@@ -1,5 +1,5 @@
 // TODO: Implement Utils.java
-package lsmkv.util;
+package src.main.java.lsmkv.util;
 
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;

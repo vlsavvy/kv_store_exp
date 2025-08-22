@@ -1,10 +1,10 @@
-// TODO: Implement MemTable.java
-package lsmkv.engine;
+package src.main.java.lsmkv.engine;
 
-import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 public class MemTable {
-    private final ConcurrentSkipListMap<String, byte[]> map = new ConcurrentSkipListMap<>();
+    private final Map<String, byte[]> map = new ConcurrentHashMap<>();
 
     public void put(String key, byte[] value) {
         map.put(key, value);
@@ -18,7 +18,8 @@ public class MemTable {
         map.remove(key);
     }
 
+    // Stub for WAL recovery for now
     public void recoverFromWAL(WAL wal) {
-        // TODO: replay WAL
+        // TODO: implement real recovery
     }
 }

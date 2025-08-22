@@ -1,30 +1,46 @@
-// TODO: Implement Main.java
-package lsmkv;
+// Main.java
+package src.main.java.lsmkv;
 
 import com.sun.net.httpserver.HttpServer;
-import lsmkv.config.Config;
-import lsmkv.engine.StorageEngine;
-import lsmkv.network.HttpServerWrapper;
+import src.main.java.lsmkv.config.Config;
+import src.main.java.lsmkv.network.HttpServerWrapper;
+import src.main.java.lsmkv.replication.Replicator;
+import src.main.java.lsmkv.engine.StorageEngine;
+import src.main.java.lsmkv.network.handlers.KvHandler;
 
-import java.nio.file.Files;
+import java.net.InetSocketAddress;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.time.Duration;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        if (args.length < 1) args = new String[]{"./data"};
+        String dataDir = "./data";
+        int port = 8080;
 
-        Path dataDir = Paths.get(args[0]);
-        Files.createDirectories(dataDir);
 
-        Config cfg = new Config();
-        StorageEngine engine = new StorageEngine(dataDir, cfg);
+         long memtableFlushBytes = 8L * 1024 * 1024; // 8 MiB
+         Duration fsyncInterval = Duration.ofMillis(50);
+         int sparseIndexEvery = 32;
+         int compactionFanIn = 4;
+         int writeQueueCapacity = 1000; // backpressure queue
+
+        // initialize config with defaults
+        Config cfg = new Config(memtableFlushBytes,fsyncInterval,sparseIndexEvery,compactionFanIn,writeQueueCapacity);
+
+        // Create replicator and storage engine
+        Replicator replicator = new Replicator(Path.of(dataDir));
+        StorageEngine engine = new StorageEngine(Path.of(dataDir),cfg,replicator);
         engine.start();
 
-        HttpServerWrapper server = new HttpServerWrapper(engine, 8080, Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()));
-        server.start();
+        //HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+        //server.createContext("/
+        //server.start();
 
-        System.out.printf("LSMKV listening on :8080  dataDir=%s%n", dataDir.toAbsolutePath());
+        HttpServerWrapper serverWrapper = new HttpServerWrapper(engine,8080, Executors.newFixedThreadPool(10));
+        serverWrapper.start();
+
+        System.out.println("LSMKV listening on :" + port + "  dataDir=" + dataDir);
     }
 }

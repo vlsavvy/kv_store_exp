@@ -1,7 +1,50 @@
-// TODO: Implement Replicator.java
-package lsmkv.replication;
+// Replicator.java
+package src.main.java.lsmkv.replication;
 
-public interface Replicator {
-    void replicatePut(String key, byte[] value);
-    void replicateDel(String key);
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+
+public class Replicator {
+    private final Path dataDir;
+    private final ConcurrentHashMap<String, byte[]> memtable = new ConcurrentHashMap<>();
+
+    // ✅ Take dataDir as a parameter
+    public Replicator(Path dataDir) {
+        this.dataDir = dataDir;
+    }
+
+    // Single put
+    public void put(String key, byte[] value) {
+        memtable.put(key, value);
+        // TODO: flush to SSTable when full
+    }
+
+    // Single get
+    public byte[] get(String key) {
+        return memtable.getOrDefault(key, null);
+    }
+
+    // ✅ Batch put
+    public void putBatch(Map<String, byte[]> entries) {
+        memtable.putAll(entries);
+        // TODO: batching flush strategy can be applied here
+    }
+
+    // ✅ Batch get
+    public Map<String, byte[]> getBatch(List<String> keys) {
+        Map<String, byte[]> result = new HashMap<>();
+        for (String key : keys) {
+            if (memtable.containsKey(key)) {
+                result.put(key, memtable.get(key));
+            }
+        }
+        return result;
+    }
+
+    public Path getDataDir() {
+        return dataDir;
+    }
 }

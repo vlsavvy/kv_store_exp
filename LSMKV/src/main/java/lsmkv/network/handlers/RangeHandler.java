@@ -1,9 +1,9 @@
 // TODO: Implement RangeHandler.java
-package lsmkv.network.handlers;
+package src.main.java.lsmkv.network.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import lsmkv.engine.StorageEngine;
+import src.main.java.lsmkv.engine.StorageEngine;
 
 import java.io.IOException;
 

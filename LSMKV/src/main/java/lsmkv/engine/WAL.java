@@ -1,7 +1,7 @@
 // TODO: Implement WAL.java
-package lsmkv.engine;
+package src.main.java.lsmkv.engine;
 
-import lsmkv.config.Config;
+import src.main.java.lsmkv.config.Config;
 
 import java.io.IOException;
 import java.nio.file.Path;
