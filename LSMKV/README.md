@@ -38,14 +38,25 @@ javac -d bin src/main/java/lsmkv/**/*.java
 ```
 
 ## Examples
+
 ```curl.exe -X PUT "http://localhost:8080/kv/mykey" -d "myvalue"```
 OK
+### Batch
 ```curl.exe -X POST "http://localhost:8080/batch" `              
   -H "Content-Type: application/json" `
    -d '{ "mykey1": "value1", "mykey2": "value2", "mykey3": "value3" }'```
 Batch insert successful
+```curl.exe -X GET "http://localhost:8080/batch?keys=mykey1,mykey2"```    
+{"mykey1":"value1","mykey2":"value2"}
+
 ```curl.exe -X GET "http://localhost:8080/kv/mykey3"```          
 value3                                                                                                                                                                              
 ```curl.exe -X GET "http://localhost:8080/kv/mykey"```                                                                                 
 myvalue
-
+### Range Fetch Example
+```curl.exe -X POST "http://localhost:8080/batch" `
+ -H "Content-Type: application/json" `
+ -d '{ "mykey1": "value1", "mykey2": "value2", "mykey3": "value3" }'```
+Batch insert successful
+```curl.exe -X GET "http://localhost:8080/range?start=mykey1&end=mykey3"```
+{"mykey2":"value2","mykey1":"value1","mykey3":"value3"}

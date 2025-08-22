@@ -27,13 +27,13 @@ public class Replicator {
         return memtable.getOrDefault(key, null);
     }
 
-    // ✅ Batch put
+    //  Batch put
     public void putBatch(Map<String, byte[]> entries) {
         memtable.putAll(entries);
         // TODO: batching flush strategy can be applied here
     }
 
-    // ✅ Batch get
+    // Batch get
     public Map<String, byte[]> getBatch(List<String> keys) {
         Map<String, byte[]> result = new HashMap<>();
         for (String key : keys) {
@@ -47,4 +47,16 @@ public class Replicator {
     public Path getDataDir() {
         return dataDir;
     }
+
+    public Map<String, byte[]> getRange(String startKey, String endKey) {
+        Map<String, byte[]> result = new HashMap<>();
+        for (Map.Entry<String, byte[]> entry : memtable.entrySet()) {
+            String k = entry.getKey();
+            if (k.compareTo(startKey) >= 0 && k.compareTo(endKey) <= 0) {
+                result.put(k, entry.getValue());
+            }
+        }
+        return result;
+    }
+
 }

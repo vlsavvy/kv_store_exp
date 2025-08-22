@@ -53,22 +53,6 @@ public class BatchHandler implements HttpHandler {
                     }
                     break;
                 }
-
-                case "PUT": {
-                    // ---- Batch Insert ----
-                    String body = new String(ex.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
-                    Map<String, String> kvPairs = parseJsonLike(body);
-
-                    Map<String, byte[]> batchMap = new HashMap<>();
-                    for (Map.Entry<String, String> entry : kvPairs.entrySet()) {
-                        batchMap.put(entry.getKey(), entry.getValue().getBytes(StandardCharsets.UTF_8));
-                    }
-
-                    status = 200;
-                    response = "Batch Insert OK, count=" + kvPairs.size();
-                    break;
-                }
-
                 case "GET": {
                     try {
                         String query = ex.getRequestURI().getQuery();

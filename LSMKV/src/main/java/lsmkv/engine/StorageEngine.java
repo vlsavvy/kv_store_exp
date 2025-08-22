@@ -295,4 +295,17 @@ public class StorageEngine implements AutoCloseable, Closeable {
         return results;
     }
 
+    public Map<String, byte[]> getRange(String startKey, String endKey) throws IOException {
+        ensureReady();
+        try {
+            if (replicator != null) {
+                return replicator.getRange(startKey, endKey);
+            } else {
+                return new HashMap<>(); // no replicator configured
+            }
+        } catch (RuntimeException re) {
+            throw new IOException("GET_RANGE failed: " + re.getMessage(), re);
+        }
+    }
+
 }
